@@ -2,6 +2,7 @@
 ![Platform](https://img.shields.io/badge/Platform-TryHackMe-red)
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-green)
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+🔗 [TryHackMe Room](https://tryhackme.com/room/rootme)
 <img src="img/rootme.png" width="500"/>
 ---
 ## Introducción
