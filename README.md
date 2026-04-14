@@ -156,6 +156,8 @@ Para ello, se buscaron archivos con permisos SUID en el sistema.
 ```bash
 find / -perm -4000 -type f 2>/dev/null
 ```
+![SUID Files](22.png)
+
 
 
 
