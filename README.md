@@ -37,7 +37,30 @@ Dado que el servicio HTTP se encuentra disponible, se procedió a realizar una e
 ```bash
 gobuster dir -u http://10.128.172.51 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 ```
+![Gobuster](2.png)
 
+Posteriormente, se realizó una enumeración más específica incluyendo extensiones comunes como **.php**, **.txt** y **.html**, con el objetivo de identificar archivos potencialmente sensibles en el servidor.
+
+```bash
+gobuster dir -u http://10.128.172.51 -w /usr/share/wordlists/dirbuster/directory-list-1.0.txt -x php,txt,html
+```
+![Gobuster](3.png)
+
+Este segundo escaneo permitió identificar archivos adicionales como **index.php**, así como confirmar la existencia de directorios previamente descubiertos como **/panel** y **/uploads**.
+
+Estos directorios resultan especialmente interesantes:
+
+- **/panel**: podría contener funcionalidades administrativas o formularios de entrada.
+- **/uploads**: sugiere la posibilidad de carga de archivos, lo cual puede ser un vector de ataque potencial.
+
+A partir de estos hallazgos, se decide enfocar la siguiente fase en la exploración del directorio **/panel**.
+
+
+## Explotación
+
+Una vez identificado el directorio `/panel`, se accedió a la funcionalidad de carga de archivos disponible en el sitio web.
+
+El formulario permitía seleccionar y subir archivos al servidor, por lo que se evaluó si esta funcionalidad podía ser utilizada para obtener ejecución remota de código.
 
 
 
