@@ -3,6 +3,7 @@
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-green)
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 <img src="img/rootme.png" width="500"/>
+---
 ## Introducción
 
 Este writeup documenta el proceso de compromiso de la máquina **RootMe** en TryHackMe.
