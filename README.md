@@ -1,4 +1,4 @@
-# RootMe - TryHackMe Writeup
+# 🛡️ RootMe - TryHackMe Writeup
 ![RootMe Room](img/rootme.png)
 ## Introducción
 
