@@ -1,5 +1,5 @@
 # RootMe - TryHackMe Writeup
-
+![RootMe Room] imagen (111) (1).png
 ## Introducción
 
 Este writeup documenta el proceso de compromiso de la máquina **RootMe** en TryHackMe.
