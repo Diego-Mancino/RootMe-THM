@@ -1,4 +1,7 @@
 # 🛡️ RootMe - TryHackMe Writeup
+![Platform](https://img.shields.io/badge/Platform-TryHackMe-red)
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-green)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 ![RootMe Room](img/rootme.png)
 ## Introducción
 
