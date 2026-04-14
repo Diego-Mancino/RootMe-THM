@@ -198,7 +198,7 @@ cat root.txt
 ![Root Flag](img/RootFlag.png)
 
 
-## Conclusión
+## 🧠 Conclusión
 
 Durante este laboratorio se llevó a cabo un proceso completo de pentesting sobre la máquina **RootMe**, comenzando con tareas de reconocimiento y enumeración, donde se identificaron servicios clave y posibles vectores de ataque.
 
