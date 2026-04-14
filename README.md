@@ -185,7 +185,7 @@ ls
 cat root.txt
 ```
 
-![Root Flag]
+![Root Flag](28.png)
 
 
 
