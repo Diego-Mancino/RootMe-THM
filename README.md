@@ -188,8 +188,25 @@ cat root.txt
 ![Root Flag](28.png)
 
 
+## Conclusión
+
+Durante este laboratorio se llevó a cabo un proceso completo de pentesting sobre la máquina **RootMe**, comenzando con tareas de reconocimiento y enumeración, donde se identificaron servicios clave y posibles vectores de ataque.
+
+A través de la enumeración web, se descubrió un panel de subida de archivos vulnerable, el cual permitió la carga de archivos al servidor. Mediante técnicas de bypass de restricciones, se logró subir una web shell y obtener ejecución remota de comandos.
+
+Posteriormente, se estableció una reverse shell, obteniendo acceso al sistema como el usuario **www-data**. Finalmente, mediante la enumeración de archivos con permisos SUID, se identificó un binario vulnerable (**python2.7**) que permitió escalar privilegios hasta obtener acceso como **root**.
+
+Este laboratorio demuestra la importancia de una correcta validación de archivos en aplicaciones web, así como los riesgos asociados a configuraciones inseguras en el sistema, como la presencia de binarios con permisos elevados.
+
+El compromiso completo del sistema evidencia cómo múltiples vulnerabilidades encadenadas pueden ser explotadas para obtener control total de una máquina.
 
 
+## Lecciones aprendidas
+
+- Importancia de la enumeración en cada fase del ataque
+- Riesgos de funcionalidades de subida de archivos sin validación adecuada
+- Uso de web shells para obtener ejecución remota de comandos
+- Identificación y explotación de binarios con permisos SUID
 
 
 
