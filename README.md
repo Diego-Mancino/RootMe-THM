@@ -70,11 +70,13 @@ El formulario permitía seleccionar y subir archivos al servidor, por lo que se 
 
 Como se puede observar, el panel permite la carga de archivos directamente al servidor.
 
-Se intentó subir un archivo con extensión **.php**, sin embargo, el servidor bloqueó este tipo de archivos, mostrando el mensaje *"PHP não é permitido!"*.
+Al intentar subir un archivo con extensión `.php`, el sistema bloqueó la operación, indicando la presencia de un mecanismo de validación que restringe este tipo de archivos.
 
-Esto indica la presencia de un mecanismo de filtrado de extensiones, lo cual impide la subida directa de archivos PHP.
+Esto sugiere que la aplicación implementa un filtro basado en la extensión del archivo, probablemente mediante una lista negra que impide la subida de archivos `.php`.
 
-Tras identificar la restricción en la subida de archivos PHP, se probaron otras extensiones permitidas por el sistema.
+Sin embargo, este tipo de validaciones suelen ser insuficientes si no se aplican de forma estricta. Por ello, se intentó evadir el filtro utilizando una variante de la extensión, renombrando el archivo a `.php5`.
+
+Este tipo de bypass aprovecha configuraciones del servidor que interpretan extensiones alternativas como código PHP, permitiendo su ejecución en el servidor.
 
 Se logró subir archivos con extensión **.txt** y **.php5**, los cuales fueron almacenados en el directorio `/uploads`.
 
@@ -84,7 +86,7 @@ A continuación, se muestra el contenido del directorio accesible desde el naveg
 
 El hecho de que los archivos subidos sean accesibles desde el navegador indica que el servidor permite servir directamente el contenido del directorio `/uploads`.
 
-Esto sugiere que, si se logra subir un archivo ejecutable por el servidor (como un script PHP), podría ser posible obtener ejecución remota de código.
+Esto indica que, si se logra subir un archivo ejecutable por el servidor (como un script PHP), podría ser posible obtener ejecución remota de código.
 
 Para comprobar el comportamiento del servidor, se accedió directamente a uno de los archivos subidos.
 
@@ -96,7 +98,7 @@ Esto confirma que los archivos subidos no solo se almacenan en el servidor, sino
 
 Este comportamiento es crítico, ya que indica que, si se logra subir un archivo ejecutable (como un script PHP), este podría ser interpretado por el servidor y permitir la ejecución de comandos.
 
-Tras confirmar que los archivos subidos son accesibles desde el navegador, se procedió a crear un archivo con extensión **.php5** que contuviera código PHP para la ejecución de comandos.
+Tras confirmar que los archivos subidos son accesibles desde el navegador, se procedió a crear y subir un archivo con extensión **.php5** que contenía código PHP para la ejecución de comandos.
 
 El payload utilizado permite ejecutar comandos del sistema a través de parámetros en la URL:
 
@@ -104,8 +106,8 @@ El payload utilizado permite ejecutar comandos del sistema a través de parámet
 <?php system($_GET['cmd']); ?>
 ```
 
-Este tipo de payload es comúnmente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como [PentestMonkey - PHP Reverse Shell](https://pentestmonkey.net/tools/web-shells/php-reverse-shell)
- fueron utilizadas como guía.
+Este tipo de payload es ampliamente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como [PentestMonkey - PHP Reverse Shell](https://pentestmonkey.net/tools/web-shells/php-reverse-shell)
+sirvieron como guía para la construcción del payload.
 
 ![Web Shell Creation](9.png)
 
@@ -115,7 +117,7 @@ Una vez subido el archivo, se accedió al mismo desde el navegador utilizando el
 
 Como se puede observar, el servidor ejecuta el comando `id`, devolviendo información del usuario bajo el cual se ejecuta el servicio web (**www-data**).
 
-También se probaron otros comandos como `ls` y `pwd`, confirmando el control sobre el sistema.
+Se ejecutaron comandos adicionales como `ls` y `pwd`, confirmando la capacidad de interacción con el sistema comprometido.
 
 Tras lograr la ejecución remota de comandos, el siguiente objetivo fue obtener una shell interactiva en el sistema.
 
