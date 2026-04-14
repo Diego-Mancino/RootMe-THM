@@ -62,12 +62,46 @@ Una vez identificado el directorio `/panel`, se accedió a la funcionalidad de c
 
 El formulario permitía seleccionar y subir archivos al servidor, por lo que se evaluó si esta funcionalidad podía ser utilizada para obtener ejecución remota de código.
 
+![Upload Panel](5.png)
 
+Como se puede observar, el panel permite la carga de archivos directamente al servidor.
 
+Se intentó subir un archivo con extensión **.php**, sin embargo, el servidor bloqueó este tipo de archivos, mostrando el mensaje *"PHP não é permitido!"*.
 
+Esto indica la presencia de un mecanismo de filtrado de extensiones, lo cual impide la subida directa de archivos PHP.
 
+Tras identificar la restricción en la subida de archivos PHP, se probaron otras extensiones permitidas por el sistema.
 
+Se logró subir archivos con extensión **.txt** y **.php5**, los cuales fueron almacenados en el directorio `/uploads`.
 
+A continuación, se muestra el contenido del directorio accesible desde el navegador:
+
+![Uploads Directory](6.png)
+
+El hecho de que los archivos subidos sean accesibles desde el navegador indica que el servidor permite servir directamente el contenido del directorio `/uploads`.
+
+Esto sugiere que, si se logra subir un archivo ejecutable por el servidor (como un script PHP), podría ser posible obtener ejecución remota de código.
+
+Para comprobar el comportamiento del servidor, se accedió directamente a uno de los archivos subidos.
+
+![Accesing Uploaded File](8.png)
+
+Como se puede observar, el contenido del archivo **diego.txt** es mostrado directamente en el navegador.
+
+Esto confirma que los archivos subidos no solo se almacenan en el servidor, sino que también son accesibles públicamente a través del navegador.
+
+Este comportamiento es crítico, ya que indica que, si se logra subir un archivo ejecutable (como un script PHP), este podría ser interpretado por el servidor y permitir la ejecución de comandos.
+
+Tras confirmar que los archivos subidos son accesibles desde el navegador, se procedió a crear un archivo con extensión **.php5** que contuviera código PHP para la ejecución de comandos.
+
+El payload utilizado permite ejecutar comandos del sistema a través de parámetros en la URL:
+
+```php
+<?php system($_GET['cmd']); ?>
+```
+
+Este tipo de payload es comúnmente utilizado en pruebas de seguridad para obtener ejecución remota de comandos (RCE). Referencias como PentestMonkey - PHP Reverse Shell
+ fueron utilizadas como guía.
 
 
 
