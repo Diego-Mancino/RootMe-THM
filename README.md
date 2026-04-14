@@ -55,7 +55,7 @@ Estos directorios resultan especialmente interesantes:
 
 - Este tipo de funcionalidades representa un vector de ataque crítico en aplicaciones web, especialmente si no se implementan mecanismos adecuados de validación de archivos, como restricciones estrictas de extensiones, tipo MIME o contenido.
 
-En escenarios vulnerables, un atacante podría aprovechar este comportamiento para subir archivos maliciosos, como web shells, con el objetivo de obtener ejecución remota de comandos en el servidor.
+En escenarios vulnerables, un atacante puede aprovechar este comportamiento para subir archivos maliciosos, como web shells, con el objetivo de obtener ejecución remota de comandos en el servidor.
 
 A partir de estos hallazgos, se decide enfocar la siguiente fase en la exploración del directorio **/panel**.
 
