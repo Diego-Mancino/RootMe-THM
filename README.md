@@ -158,6 +158,61 @@ find / -perm -4000 -type f 2>/dev/null
 ```
 ![SUID Files](22.png)
 
+Este comando permite identificar archivos con el bit SUID activado, lo que implica que se ejecutan con los privilegios del propietario del archivo.
+
+Entre los resultados obtenidos, destaca el binario **/usr/bin/python2.7**, el cual resulta inusual y potencialmente explotable para escalar privilegios.
+
+Tras identificar que el binario **/usr/bin/python2.7** posee permisos SUID, se procedió a explotarlo para escalar privilegios.
+
+Se utilizó el siguiente comando para obtener una shell con privilegios de root:
+
+```bash
+python2.7 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+```
+Este método se basa en técnicas documentadas en recursos como [GTFOBins](https://gtfobins.github.io/gtfobins/python/), donde se detallan formas de explotar binarios con permisos elevados.
+
+![Privilege Escalation to Root](25.png)
+
+Como resultado, se obtiene una shell con privilegios de **root**, lo cual se verifica mediante los comandos `whoami` e `id`.
+
+Esto confirma que se ha logrado comprometer completamente el sistema.
+
+Finalmente, tras obtener acceso como **root**, se procedió a buscar la flag final del sistema.
+
+```bash
+cd /root
+ls
+cat root.txt
+```
+
+![Root Flag]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
