@@ -17,3 +17,4 @@ Como primer paso, se ejecutó un escaneo con **Nmap** para detectar puertos abie
 ```bash
 nmap -sS -sV -O 10.128.172.51
 
+<img width="961" height="757" alt="1" src="https://github.com/user-attachments/assets/fb91d9f0-bc56-4783-9779-817179f94ab4" />
