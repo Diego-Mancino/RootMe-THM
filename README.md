@@ -162,7 +162,7 @@ Este comando permite identificar archivos con el bit SUID activado, lo que impli
 
 Entre los resultados obtenidos, destaca el binario **/usr/bin/python2.7**, el cual resulta inusual y potencialmente explotable para escalar privilegios.
 
-Tras identificar que el binario **/usr/bin/python2.7** posee permisos SUID, se procedió a explotarlo para escalar privilegios.
+Tras identificar que el binario **/usr/bin/python2.7** posee permisos SUID, se procedió a explotarlo para escalar privilegios. La presencia de este binario con permisos SUID representa un riesgo crítico, ya que permite ejecutar código con privilegios elevados.
 
 Se utilizó el siguiente comando para obtener una shell con privilegios de root:
 
